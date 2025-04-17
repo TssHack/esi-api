@@ -8,7 +8,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // خواندن و پارس کردن فایل json
-const quotes = JSON.parse(fs.readFileSync('./quotes.json', 'utf-8'));
+const path = require('path');
+const data = fs.readFileSync(path.join(__dirname, 'quotes.json'), 'utf-8');
 
 
 // سخن تصادفی
