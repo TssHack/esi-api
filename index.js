@@ -1,3 +1,23 @@
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
+const app = express();  // تعریف app
+const PORT = process.env.PORT || 3000;
+
+app.use(cors());
+
+// خواندن و پارس کردن فایل json
+let quotes = [];
+try {
+  const data = fs.readFileSync(path.join(__dirname, 'quotes.json'), 'utf-8');
+  quotes = JSON.parse(data);
+} catch (error) {
+  console.error('خطا در خواندن فایل quotes.json:', error);
+  quotes = [];  // fallback در صورت خطا
+}
+
 // سخن تصادفی
 app.get('/ehsan', (req, res) => {
   if (quotes.length === 0) {
@@ -9,7 +29,7 @@ app.get('/ehsan', (req, res) => {
   res.json({
     developer: {
       name: "Ehsan Fazli",
-      devID: "abj0o"
+      Tel_ID: "@abj0o"
     },
     quote: randomQuote.quote,
     author: randomQuote.author
@@ -17,7 +37,7 @@ app.get('/ehsan', (req, res) => {
 });
 
 // جستجو بر اساس نویسنده
-app.get('/ehsan/name/:name', (req, res) => {
+app.get('/ehsan/names/:name', (req, res) => {
   const name = req.params.name.toLowerCase();
   const result = quotes.filter(q => q.author && q.author.toLowerCase().includes(name));
 
@@ -25,7 +45,7 @@ app.get('/ehsan/name/:name', (req, res) => {
     const enriched = result.map(q => ({
       developer: {
         name: "Ehsan Fazli",
-        devID: "abj0o"
+        Tel_ID: "@abj0o"
       },
       quote: q.quote,
       author: q.author
@@ -39,12 +59,12 @@ app.get('/ehsan/name/:name', (req, res) => {
 
 // لیست تمام نویسنده‌ها بدون تکرار
 app.get('/names', (req, res) => {
-  const authors = [...new Set(quotes.map(q => q.author).filter(Boolean))]; // حذف null و undefined
+  const authors = [...new Set(quotes.map(q => q.author).filter(Boolean))];
 
   res.json({
     developer: {
       name: "Ehsan Fazli",
-      devID: "abj0o"
+      Tel_ID: "@abj0o"
     },
     authors: authors
   });
