@@ -1,5 +1,5 @@
 // سخن تصادفی
-app.get('/big', (req, res) => {
+app.get('/ehsan', (req, res) => {
   if (quotes.length === 0) {
     return res.status(500).json({ error: 'هیچ سخنی موجود نیست' });
   }
@@ -17,7 +17,7 @@ app.get('/big', (req, res) => {
 });
 
 // جستجو بر اساس نویسنده
-app.get('/big/author/:name', (req, res) => {
+app.get('/ehsan/name/:name', (req, res) => {
   const name = req.params.name.toLowerCase();
   const result = quotes.filter(q => q.author && q.author.toLowerCase().includes(name));
 
@@ -38,7 +38,7 @@ app.get('/big/author/:name', (req, res) => {
 });
 
 // لیست تمام نویسنده‌ها بدون تکرار
-app.get('/bigall', (req, res) => {
+app.get('/names', (req, res) => {
   const authors = [...new Set(quotes.map(q => q.author).filter(Boolean))]; // حذف null و undefined
 
   res.json({
